@@ -19,9 +19,22 @@ body {
 
 .enabled {
   background-color: green;
-  cursor: pointer;
 }
 
 .disabled {
   background-color: red;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.selected {
+  background-color: lightblue;
+}
+
+ul, li {
+  list-style-type: none;
+  margin:0;
+  padding:0;
 }

@@ -98,8 +98,4 @@ export const gear = [
     'id': 2,
     'name': 'automatic'
   },
-  {
-    'id': 3,
-    'name': 'robotic'
-  }
 ];
