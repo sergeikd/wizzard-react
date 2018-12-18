@@ -11,22 +11,55 @@ class App extends Component {
     super(props);
     this.state = {
       pageId: 0,
+      content: [],
     };
     this.cars = { ...cars };
     this.pages = pages;
     this.summary = [];
   }
 
+  componentDidMount() {
+    this.setState(() => ({
+      content: this.getContent(0),
+    }));
+  }
+  
   onClickFwd = () => {
     this.setState((prevState) => ({
-      pageId: prevState.pageId + 1
+      pageId: prevState.pageId + 1,
+      content: this.getContent(prevState.pageId + 1),
     }));
   }
 
   onClickBack = () => {
     this.setState((prevState) => ({
-      pageId: prevState.pageId - 1
+      pageId: prevState.pageId - 1,
+      content: this.getContent(prevState.pageId - 1),
     }));
+  }
+
+  
+  getContent = (pageId) => {
+    let entity = [];
+    switch (pageId) {
+      case 1:
+        entity = this.cars.model.filter(x => x.brandId === this.summary[0]);
+        break;
+      case 2:
+        entity = this.cars.engine.filter(x => this.cars.model[x.id].availableEngineIds.includes(x.id))
+        break;
+      case 3:
+        entity = this.cars.gear.filter(x => this.cars.model[x.id].availableGearsIds.includes(x.id));
+        break;
+      case 4:
+        for (let i = 0; i < this.summary.length; i++) {
+          entity[i] = { id: i, name: `${pages[i].entity}: ${cars[pages[i].entity][this.summary[i] - 1].name}` };
+        }
+        break;
+      default:
+        entity = this.cars.brand;
+    }
+    return entity;
   }
 
   onItemClick = (e) => {
@@ -56,7 +89,7 @@ class App extends Component {
             name='Forward' />
         </div>
         <Content
-          cars={this.cars}
+          content={this.state.content}
           pages={this.pages}
           pageId={this.state.pageId}
           summary={this.summary}
